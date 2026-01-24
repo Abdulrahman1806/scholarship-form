@@ -99,27 +99,46 @@ button:hover {
 </div>
 
 <script>
-document.getElementById("scholarshipForm").addEventListener("submit", async (e) => {
+const form = document.getElementById("scholarshipForm");
+const button = form.querySelector("button");
+
+form.addEventListener("submit", async (e) => {
   e.preventDefault();
 
+  button.disabled = true;
+  button.innerText = "Submitting...";
+
   const data = {
-    name: e.target.name.value,
-    age: e.target.age.value,
-    birth_year: e.target.birth_year.value,
-    education: e.target.education.value,
-    email: e.target.email.value,
-    phone: e.target.phone.value
+    name: form.name.value.trim(),
+    age: form.age.value.trim(),
+    birth_year: form.birth_year.value.trim(),
+    education: form.education.value.trim(),
+    email: form.email.value.trim(),
+    phone: form.phone.value.trim()
   };
 
-  await fetch("https://unconjectural-emory-bustlingly.ngrok-free.dev/webhook/ai-scholarship-apply", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify(data)
-  });
+  try {
+    const res = await fetch("https://unconjectural-emory-bustlingly.ngrok-free.dev/webhook/ai-scholarship-apply", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(data)
+    });
 
-  alert("Submitted successfully!");
+    if (res.ok) {
+      alert("Submitted successfully!");
+      form.reset();
+    } else {
+      alert("Something went wrong.");
+    }
+
+  } catch (err) {
+    alert("Network error.");
+  }
+
+  button.disabled = false;
+  button.innerText = "Apply Now";
 });
 </script>
 
