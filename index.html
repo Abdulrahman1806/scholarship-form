@@ -109,13 +109,16 @@ form.addEventListener("submit", async (e) => {
   button.innerText = "Submitting...";
 
   const data = {
-    name: form.name.value.trim(),
-    age: form.age.value.trim(),
-    birth_year: form.birth_year.value.trim(),
-    education: form.education.value.trim(),
-    email: form.email.value.trim(),
-    phone: form.phone.value.trim()
-  };
+  name: e.target.name.value.trim(),
+  age: Number(e.target.age.value),
+  birth_year: Number(e.target.birth_year.value),
+  education: e.target.education.value.trim(),
+  email: e.target.email.value.trim(),
+  phone: e.target.phone.value.trim()
+};
+
+
+  
 
   try {
     const res = await fetch("https://unconjectural-emory-bustlingly.ngrok-free.dev/webhook/ai-scholarship-apply", {
